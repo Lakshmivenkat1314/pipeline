@@ -44,13 +44,12 @@ jobs:
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      # 7. Deploy WAR on Tomcat
-      - name: Deploy WAR on Tomcat
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
+      # 6. Upload WAR to EC2
+      - name: Upload WAR to EC2
+        run: |
+          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ./ROOT.war ubuntu@${{ secrets.EC2_HOST }}:/tmp/ROOT.war
+
+
           script: |
             echo "=== Stopping Tomcat ==="
             sudo systemctl stop tomcat10 || true
