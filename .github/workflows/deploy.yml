@@ -49,7 +49,6 @@ jobs:
         run: |
           scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ./ROOT.war ubuntu@${{ secrets.EC2_HOST }}:/tmp/ROOT.war
 
-
           script: |
             echo "=== Stopping Tomcat ==="
             sudo systemctl stop tomcat10 || true
